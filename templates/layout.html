@@ -1,0 +1,120 @@
+<!doctype html>
+
+
+
+<html>
+
+<link rel="stylesheet" type="text/css" href ="/static/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href ="/static/css/bootstyle.css">
+
+<head>
+
+
+
+
+	<title>GIFHOV</title>
+	 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	 
+	 <script type="text/javascript" src="/static/assets/js/jquery.filedrop.js"></script>
+
+	 <script type="text/javascript" src="/static/assets/js/prettify.js"></script>
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container">
+  
+  <a class=" navbar-default navbar-brand" href="/">
+   <h1 class=" navbar-default navbar-brand">
+    <span class="logo-part-1 no-space">GIF</span><span class="logo-part-2 no-space">HOV</span>
+   </h1>
+  </a>
+  
+ <div class="navitems" style="float:left; color: white;">
+ <p>
+ <a href="/">CREATE</a>
+ <a href="">BROWSE</a>
+ <a href="/display">PROFILE</a>
+ </p>
+ 
+ </div>
+  
+  
+  
+    		  
+{% if logged_in %}
+		<!--LOGIN BUTTON -->
+		 <div class="btn-group pull-right logindiv">
+		  <a class= "loginbutton" href="/logout">
+		   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
+		     Logout 
+		   </button>
+		  </a>
+		 </div>
+		<!--END LOGIN BUTTON-->
+
+			{% else %}
+			
+			
+				<!--LOGIN BUTTON -->
+				 <div class="btn-group pull-right logindiv">
+				  <a class= "loginbutton" href="/login">
+				   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
+				     Login 
+				   </button>
+				  </a>
+				 </div>
+				<!--END LOGIN BUTTON-->
+
+			{% endif %}
+			
+			<!--REGISTER BUTTON -->
+			 <div class="btn-group pull-right logindiv">
+			  <a class= "loginbutton" href="/register">
+			   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> 
+			     Register
+			   </button>
+			  </a>
+			 </div>
+			<!--END REGISTER BUTTON-->
+			
+			
+			
+</div>
+</div>
+<!-- Close Fixed navbar -->
+
+
+
+</head>
+  <body>
+  <div class="content">
+  	
+  	
+  
+  		{% block body %}
+  		
+  		  	
+  		
+  		
+  		{% endblock %}
+  
+  	</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  	<div class="footer">
+  
+  		{% block footer %}{% endblock %}
+  
+  	</div>
+  
+
+  </body>
+  </html>

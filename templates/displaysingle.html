@@ -1,0 +1,92 @@
+<!doctype html>
+
+<!--
+This is a temporary template.
+
+This template is used to test dynamic URLS.
+
+For example:
+
+domain.com/display/<uploadid> (like 510abc321r7d)
+
+would display the gifhov with an uploadid of <uploadid>
+-->
+
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+
+<script type='text/javascript'>
+var gifdata = "{{gifdata}}";
+var audiodata = "{{audiodata}}";
+//var uploadid = {{uploadid|tojson|safe}};
+
+document.write("gifdata: " + gifdata + "<br />");
+document.write("audiodata: " + audiodata + "<br /><br />");
+document.write("<img src = /static/uploads/" + gifdata + " width = 250; height = 250;>");
+
+
+
+</script>
+
+
+<script type ="text/javascript">
+
+
+for (var i=0; i < gifdata.length; i++){
+
+	
+	var element = document.getElementById("div");
+	
+	var description = document.createElement("p");
+	
+	var imagelink = document.createElement("a");
+	imagelink.href = '/display/'+uploadid[i];
+	var imageholder = document.createElement("img");
+	imageholder.setAttribute('src', 'static/uploads/'+gifdata[i]);
+//	imageholder.setAttribute('width', 250);
+//	imageholder.setAttribute('height', 250);
+	imageholder.setAttribute('class', "imageholder");
+	imageholder.setAttribute('id', "TheGif"+i+"");
+	element.appendChild(imagelink);
+	imagelink.appendChild(imageholder);
+
+	var testpathname = document.createTextNode("Image location: static/uploads/" + gifdata[i]);
+	description.appendChild(testpathname);
+//	element.appendChild(description);
+
+
+	var audioholder = document.createElement("audio");
+	audioholder.setAttribute('id', "TheAudio"+i+"");
+	audioholder.setAttribute('preload', "auto");
+	audioholder.setAttribute('class', "audioholder");
+	audioholder.setAttribute('src', 'static/uploads/'+audiodata[i])
+	element.appendChild(audioholder);
+	
+	
+	var theMagic = document.getElementById("TheGif"+i+"");
+	
+	theMagic.onmouseover = function(arg) {
+	return function() {
+	var audioboom = $("#TheAudio"+arg+"")[0];
+	audioboom.play();			     }
+	}(i);    
+	
+	
+	theMagic.onmouseout = function(arg) {
+	return function() {
+	var audioboom = $("#TheAudio"+arg+"")[0];
+	audioboom.pause();			     }
+	}(i);   
+	
+	}
+	</script>
+	<form action="{{ url_for("delete", uploadid=uploadid) }}" method="POST">
+		<button type="submit">delete</button>
+		</form>
+
+
+
+{% endblock %}

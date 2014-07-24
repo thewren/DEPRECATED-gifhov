@@ -1,0 +1,23 @@
+<!doctype html>
+{% extends "templates/layout.html" %}
+{% block body %}
+<html>
+<head>
+<title>GifHov</title>
+</head>
+<body>
+Hello Other World!
+<br />
+<a href="/">Click here to return Home.</a>
+
+{% if message %}
+
+<br />
+<br />
+{{ message }}
+
+{% endif %}
+
+</body>
+</html>
+{% endblock %}

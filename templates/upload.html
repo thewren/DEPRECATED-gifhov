@@ -1,0 +1,139 @@
+
+
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+
+<html>
+
+<head>
+
+
+
+
+
+
+
+
+<title>GIFHOV</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+
+
+
+<div class="centeredBlueBoxContainer">
+<div class="centeredBlueBox">
+
+
+<div id="gifsquare" class="UploadBox gifUploadBox"><p class="drag-something">drag a gif</p></div>
+
+<div class="equation"><p class="plusSign">+</p></div>
+
+<div id="audiosquare" class="UploadBox audioUploadBox"><p class="drag-something">drag audio</p></div>
+
+
+
+<div class="equation"><p class="plusSign">=</p></div>
+
+<div class="shades">
+<img class="sampleImage" src="../static/assets/images/shades.jpg">
+
+<form id="uploadform" action="" method='POST' enctype="multipart/form-data">
+<input type="hidden" name="gif">
+<input type="hidden" name="audio">
+<input type="submit" value="Upload" disabled="disabled" class="combineButton">
+</form>
+
+<div class="input-group">
+<input type="text" class="form-control">
+<span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/reddit_icon_sm.png"></span>
+</div>
+<div class="input-group">
+<input type="text" class="form-control">
+<span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/twitter_icon_sm.png"></span>
+</div>
+<div class="input-group">
+<input type="text" class="form-control tumblr">
+<span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/tumblr_icon_sm.png"></span>
+</div>
+
+</div>
+
+
+<div style="clear:both;"></div>
+
+
+<div class="bottom-text">
+
+<p class="call-to-action">Obviously the concept is super simple. Like what you see? Sign up <a href="">here</a></p>
+
+<p class="copyright-info">© 2014 | <a href="">About</a> | <a href="">Contact</a> | <a href="">Donate</a> | <a href="">Blog</a></span></p>
+</div>
+</div>
+</div>
+
+<!--
+{% if success == False %}
+<div class='error'>File upload failed.  Please check your filetype and ensure that you are uploading both a gif and an audio file.</div>
+<br />
+{% endif %}
+{% if success == True %}
+<div class='success'>File upload successful!</div>
+<br />
+{% endif %}
+-->
+
+
+<script type="text/javascript">
+dragGifText = document.getElementsByClassName("drag-something")[0];
+dragAudioText = document.getElementsByClassName("drag-something")[1];
+gifsquare = document.getElementById('gifsquare');
+audiosquare = document.getElementById('audiosquare');
+var DD_listener = function(type) {
+return function(event) {
+event.preventDefault();
+//Ready to do something with the dropped object
+var file = event.dataTransfer.files[0];
+var form = new FormData();
+var xhr = new XMLHttpRequest();
+form.append('file', file);
+xhr.open('POST', '/file_upload');
+
+xhr.onload = function(e) 
+{
+var result = JSON.parse(this.responseText)["filename"];
+$('input[name="'+type+'"]').val(result);
+
+if($('input[name="audio"]').val() != "" && $('input[name="gif"]').val() != "") {
+$('#uploadform input[type="submit"]').removeAttr("disabled");
+}
+};
+xhr.send(form);
+};
+};
+gifsquare.addEventListener("drop", DD_listener("gif"));
+audiosquare.addEventListener("drop", DD_listener("audio"));
+
+gifsquare.addEventListener("drop", function(){ dragGifText.innerHTML="woot" });
+gifsquare.addEventListener("dragover", function(event) { event.preventDefault(); }, true);
+gifsquare.addEventListener("dragover", function() { gifsquare.style.border='2px dashed #bdbdbd'; }, true);
+gifsquare.addEventListener("dragleave", function() { gifsquare.style.border='1px dashed #bdbdbd'; }, true);
+
+audiosquare.addEventListener("drop", function(){ dragAudioText.innerHTML="woot" });
+audiosquare.addEventListener("dragover", function(event) {event.preventDefault(); }, true );
+audiosquare.addEventListener("dragover", function() { audiosquare.style.border='2px dashed #bdbdbd'; }, true);
+audiosquare.addEventListener("dragleave", function() { audiosquare.style.border='1px dashed #bdbdbd'; }, true);
+</script>
+
+<script type="text/javascript">
+gifsquare = document.getElementById('gifsquare');
+audiosquare = document.getElementById('audiosquare');
+gifsquare.addEventListener(eventType, function(event) {}, useCapture)
+
+
+</script>
+
+
+
+{% endblock %}
