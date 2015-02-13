@@ -1,12 +1,9 @@
-<!doctype html>
-{% extends "layout.html" %}
+
+{% extends "templates/layout.html" %}
+
 {% block body %}
 
-{% if session.logged_in %}
 
-Hello World!  You're logged in!
-
-{% else %}
 
 {% if success %}
 <div class='success'>
@@ -23,7 +20,7 @@ Hello World!  You're logged in!
 To create an account, please specify your email address and create a username and password.
 <br />
 <br />
-<em><form action="{{ url_for('register') }}" method="POST">
+<em><form action="{{ Register }}" method="POST">
 	<dl>
 		<dt>Email Address:
 			<dd><input type="text" name="email">
@@ -41,6 +38,5 @@ To create an account, please specify your email address and create a username an
 	</dl>
 </form></em>
 
-{% endif %}
 
 {% endblock %}

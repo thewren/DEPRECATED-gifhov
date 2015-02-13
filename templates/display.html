@@ -1,8 +1,9 @@
-<!doctype html>
 
-{% extends "layout.html" %}
+
+{% extends "templates/layout.html" %}
 
 {% block body %}
+
 
 
 <div id = "div">
@@ -11,13 +12,6 @@
 
 
 	
-
-
-<script type='text/javascript'>
-var gifdata = {{gifdata|tojson|safe}}; // Receive the python list object as a javascript array
-var audiodata = {{audiodata|tojson|safe}};
-var uploadid = {{uploadid|tojson|safe}};
-</script>
 
 
 <!--
@@ -87,72 +81,5 @@ document.write("<img src =static/uploads/a822fc2fb065/" + gifdata[i] + " width =
  	
 		 	
 		 	
-	<!--	 	
-		 	<script type ="text/javascript">
-		 		var description2 = document.createElement("p");
-		 		var testpathname2 = document.createTextNode("Image location: static/uploads/" + gifdata[1]);
-		 		description2.appendChild(testpathname2);
-		 		var element2 = document.getElementById("div2");
-		 		element2.appendChild(description2);
-		 		
-		 		var imageholder2 = document.createElement("img");
-		 		imageholder2.setAttribute('src', 'static/uploads/'+gifdata[1]);
-		 		imageholder2.setAttribute('width', 250);
-		 		imageholder2.setAttribute('height', 250);
-		 		imageholder2.setAttribute('id', "TheGif2");
-		 		element2.appendChild(imageholder2);
-		 	
-		 	
-		 		var audioholder2 = document.createElement("audio");
-		 		audioholder2.setAttribute('id', "TheAudio2");
-		 		audioholder2.setAttribute('preload', "auto");
-		 		audioholder2.setAttribute('src', 'static/uploads/'+audiodata[1])
-		 		element2.appendChild(audioholder2);
-		 		
-		 		var audioboom2 = $("#TheAudio2")[0];
-		 		$("#TheGif2").mouseover(function(){	
-		 		audioboom2.play();	
-		 	 	}
-		 		);
-		 		$("#TheGif2").mouseout(function()
-		 		{	
-		 		audioboom2.pause();	
-		 		}
-		 		);	
-		 		</script>
-		 	
-		 	<script type ="text/javascript">
-		 		var description3 = document.createElement("p");
-		 		var testpathname3 = document.createTextNode("Image location: static/uploads/" + gifdata[2]);
-		 		description3.appendChild(testpathname3);
-		 		var element3 = document.getElementById("div3");
-		 		element3.appendChild(description3);
-		 		
-		 		var imageholder3 = document.createElement("img");
-		 		imageholder3.setAttribute('src', 'static/uploads/a822fc2fb065/'+gifdata[2]);
-		 		imageholder3.setAttribute('width', 250);
-		 		imageholder3.setAttribute('height', 250);
-		 		imageholder3.setAttribute('id', "TheGif3");
-		 		element3.appendChild(imageholder3);
-		 	
-		 	
-		 		var audioholder3 = document.createElement("audio");
-		 		audioholder3.setAttribute('id', "TheAudio3");
-		 		audioholder3.setAttribute('preload', "auto");
-		 		audioholder3.setAttribute('src', 'static/uploads/'+audiodata[2])
-		 		element3.appendChild(audioholder3);
-		 		
-		 		var audioboom3 = $("#TheAudio3")[0];
-		 		$("#TheGif3").mouseover(function(){	
-		 		audioboom3.play();	
-		 	 	}
-		 		);
-		 		$("#TheGif3").mouseout(function()
-		 		{	
-		 		audioboom3.pause();	
-		 		}
-		 		);	
-		 		</script>
--->
-
+	
 {% endblock %}

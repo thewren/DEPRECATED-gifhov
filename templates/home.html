@@ -1,5 +1,3 @@
-
-
 {% extends "templates/layout.html" %}
 
 {% block body %}
@@ -14,48 +12,57 @@
 <div class="centeredBlueBoxContainer">
 <div class="centeredBlueBox">
 
+<div>
+	<div id="gifsquare" class="UploadBox gifUploadBox">
+		<p class="drag-something">drag a gif</p>
+	</div>
+	<div id ="gifErrorMessageDiv" style="position: absolute; margin-top:  20%;"></div>
+</div>
 
-<div id="gifsquare" class="UploadBox gifUploadBox"><p class="drag-something">drag a gif</p></div>
 
 <div class="equation"><p class="plusSign">+</p></div>
 
-<div id="audiosquare" class="UploadBox audioUploadBox"><p class="drag-something">drag audio</p></div>
-
+<div>
+	<div id="audiosquare" class="UploadBox audioUploadBox">
+		<p class="drag-something">drag audio</p>
+	</div>
+	<div id ="audioErrorMessageDiv" style="position: absolute; margin-top:  20%; margin-left: 25%;"></div>
+</div>
 
 
 <div class="equation"><p class="plusSign">=</p></div>
-
-<div class="shades">
+<div class="shadeContainer" style="width: 50%; display: table;">
+<div class="shades" style="overflow: hidden; width: 80%;">
 <!--<img class="sampleImage" src="../static/assets/images/shades.jpg">-->
 
 <audio id="audio1" preload="auto">
-	<source src = "serve/{{audio}}"></source>
+	<source id="audiosource" src = "serve/{{audio}}"></source>
 </audio>
 
+<a href="/gifhov/{{uploadid}}">
 <img class="sampleImage" src="serve/{{gif}}">
+</a>
 
 <script type="text/javascript">
-
 	var gifHovImage = document.getElementsByClassName("sampleImage")[0]
-
 	var audioboom = $("#audio1")[0];
-
 	gifHovImage.onmouseover = function(){
 		audioboom.play();
 	};
-
 	gifHovImage.onmouseout = function(){
 		audioboom.pause();
 	};
 </script>
-
-
-
+<div id="list">
+</div>
 <form id="uploadform" action="{{upload_url}}" method='POST' enctype="multipart/form-data">
-<input type="hidden" name="gif">
-<input type="hidden" name="audio">
 
-<input type="submit" value="Upload" class="combineButton"  >
+<!--
+<input id="gifInput" type="hidden" name="gif">
+<input id="audioInput" type="hidden" name="audio">
+
+<input type="submit" value="Upload" class="combineButton">
+-->
 </form>
 
 
@@ -68,10 +75,11 @@
 <span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/twitter_icon_sm.png"></span>
 </div>
 <div class="input-group">
-<input type="text" class="form-control tumblr">
+<input id="tumblrEmbed" type="text" class="form-control tumblr">
 <span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/tumblr_icon_sm.png"></span>
 </div>
 
+</div>
 </div>
 
 
@@ -82,133 +90,82 @@
 
 <p class="call-to-action">Obviously the concept is super simple. Like what you see? Sign up <a href="">here</a></p>
 
-<p class="copyright-info">© 2014 | <a href="">About</a> | <a href="">Contact</a> | <a href="">Donate</a> | <a href="">Blog</a></span></p>
+<p class="copyright-info"> © 2014 | <a href="">About</a> | <a href="">Contact</a> | <a href="">Donate</a> | <a href="">Blog</a></span></p>
 </div>
 </div>
 </div>
-
-<!--
-{% if success == False %}
-<div class='error'>File upload failed.  Please check your filetype and ensure that you are uploading both a gif and an audio file.</div>
-<br />
-{% endif %}
-{% if success == True %}
-<div class='success'>File upload successful!</div>
-<br />
-{% endif %}
--->
- <DIV id="list"></DIV>
+<div style="clear:both;"></div>
 
 
 
 <script type="text/javascript">
 
-var shades   = document.getElementsByClassName('shades')[0];
-
-function addEventHandler(obj, evt, handler) {
-    if(obj.addEventListener) {
-        // W3C method
-        obj.addEventListener(evt, handler, false);
-    } else if(obj.attachEvent) {
-        // IE method.
-        obj.attachEvent('on'+evt, handler);
-    } else {
-        // Old school method.
-        obj['on'+evt] = handler;
-    }
+$('body').append('<div id="hiddenGifDiv"><img id="hiddenGif" src="serve/{{gif}}"></div>');
+$('#hiddenGifDiv').hide();
+$('#hiddenGif').bind("load",function(){
+    var hiddenGifWidth = this.width;
+    window.hiddenGifWidth = hiddenGifWidth;
+    var hiddenGifHeight = this.height;
+    window.hiddenGifHeight = hiddenGifHeight;
+    
+    var embedCode = "<iframe scrolling='no'frameborder='0'src='http://gifhov.com/embed/{{uploadid}}'height='"+hiddenGifHeight+"'width='"+hiddenGifWidth+"'></iframe>";
+    var tumblrEmbed = document.getElementById('tumblrEmbed');
+    tumblrEmbed.value = embedCode;
+})
+</script>
+<script type="text/javascript">
+function waitForReadyState() {
+console.log('waiting...');
+if (xhr.readyState == 4 && xhr.status == 200) {
+var obj = JSON.parse(xhr.responseText);
+var redirect = obj.redirect;
+window.location= redirect;
 }
+setTimeout(function(){ waitForReadyState(); },250);
+}
+</script>
 
-Function.prototype.bindToEventHandler = function bindToEventHandler() {
-  var handler = this;
-  var boundParameters = Array.prototype.slice.call(arguments);
-  //create closure
-  return function(e) {
-      e = e || window.event; // get window.event if e argument missing (in IE)   
-      boundParameters.unshift(e);
-      handler.apply(this, boundParameters);
-  }
-};
+<script type="text/javascript">
+var gifErrorMessageDiv = document.getElementById('gifErrorMessageDiv');
+var shades   = document.getElementsByClassName('shades')[0];
+var dragGifText = document.getElementsByClassName("drag-something")[0];
+var dragAudioText = document.getElementsByClassName("drag-something")[1];
+var gifsquare = document.getElementById('gifsquare');
+var audiosquare = document.getElementById('audiosquare');
+var form = new FormData();
+var xhr = new XMLHttpRequest();
+var ok = {gif: false, audio: false};
 
-	dragGifText = document.getElementsByClassName("drag-something")[0];
-	dragAudioText = document.getElementsByClassName("drag-something")[1];
-	gifsquare = document.getElementById('gifsquare');
-	audiosquare = document.getElementById('audiosquare');
 
-	var form = new FormData();
-	var ok = {gif: false, audio: false};
+</script>
+
+
+<script type="text/javascript" src="/static/assets/js/DD_ListenerGif.js"></script>
+
+<script type="text/javascript" src="/static/assets/js/DD_ListenerAudio.js"></script>
+<script type="text/javascript" src="/static/assets/js/addEventHandler.js"></script>
+<script type="text/javascript" src="/static/assets/js/bindToEventHandler.js"></script>
+<script type="text/javascript" src="/static/assets/js/dropDivDeco.js"></script>
+
+
+<script type="text/javascript">
+gifsquare.addEventListener("drop", DD_listenerGif("gif"));
+audiosquare.addEventListener("drop", DD_listenerAudio("audio"));
  
-	var DD_listener = function(type) {
-		return function(event) {
 
-			event.preventDefault();
-
-			//Ready to do something with the dropped object
-			var droppedobj = event.dataTransfer.files[0];
-			
-			 e = event || window.event;
-			var dt    = e.dataTransfer;
-			  var files = dt.files;
-			  for (var i=0; i<files.length; i++) {
-			    var file = files[i];
-			    var reader = new FileReader();
-			      
-			    //attach event handlers here...
-			   
-			    reader.readAsDataURL(file);
-			  }
-			  addEventHandler(reader, 'loadend', function(e, file) {
-			      var bin           = this.result; 
-			   
-			  /*
-			      var newFile       = document.createElement('div');
-			      newFile.innerHTML = 'Loaded : '+file.name+' size '+file.size+' B';
-			      list.appendChild(newFile);  
-			      var fileNumber = list.getElementsByTagName('div').length;
-			      status.innerHTML = fileNumber < files.length 
-			                       ? 'Loaded 100% of file '+fileNumber+' of '+files.length+'...' 
-			                       : 'Done loading. processed '+fileNumber+' files.';
-			  */
-			      var img = document.getElementsByClassName('sampleImage')[0]; 
-			      img.file = file;   
-			      img.src = bin;
-			   //   shades.appendChild(img);
-			  }.bindToEventHandler(file));
-			
-			
-			
-			
-			form.append(type, droppedobj);
-			ok[type] = true;
-            if(ok.gif && ok.audio) {
-              var xhr = new XMLHttpRequest();
-              window.xhr = xhr;
-              
-          
-              
-              
-              xhr.open('POST', '{{ upload_url }}');
-  
-  
-              xhr.send(form)
-            }
-			
-		};
-	};
+ 
+ 
+</script>
 
 
-
-gifsquare.addEventListener("drop", DD_listener("gif"));
-audiosquare.addEventListener("drop", DD_listener("audio"));
-
-gifsquare.addEventListener("drop", function(){ dragGifText.innerHTML="woot" });
-gifsquare.addEventListener("dragover", function(event) { event.preventDefault(); }, true);
-gifsquare.addEventListener("dragover", function() { gifsquare.style.border='2px dashed #bdbdbd'; }, true);
-gifsquare.addEventListener("dragleave", function() { gifsquare.style.border='1px dashed #bdbdbd'; }, true);
-
-audiosquare.addEventListener("drop", function(){ dragAudioText.innerHTML="woot" });
-audiosquare.addEventListener("dragover", function(event) {event.preventDefault(); }, true );
-audiosquare.addEventListener("dragover", function() { audiosquare.style.border='2px dashed #bdbdbd'; }, true);
-audiosquare.addEventListener("dragleave", function() { audiosquare.style.border='1px dashed #bdbdbd'; }, true);
+<script type="text/javascript">
+function sendTheXHR() {
+if(ok.gif && ok.audio) {
+xhr.open('POST', '{{ upload_url }}', false);
+xhr.send(form)
+waitForReadyState();		
+}
+}
 </script>
 
 {% endblock %}

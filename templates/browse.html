@@ -1,0 +1,234 @@
+{% extends "templates/layout.html" %}
+{% block body %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<div class="centeredBlueBoxContainer">
+<div class="centeredBlueBox">
+
+<div class="equation" style="margin-left: 20%">
+<p class="plusSign">
+<div class="leftArrow" style="width: 0; height: 0; border-style: solid; border-width: 25px 25px 25px 0; border-color: transparent #2f7fac transparent transparent;">	
+</div>
+</p>
+</div>
+
+
+
+<div class="equation" style="float: right;">
+<p class="plusSign">
+<div class="rightArrow" style="width: 0; height: 0; border-style: solid; border-width: 25px 0 25px 25px; border-color: transparent transparent transparent #2f7fac;">
+</div>
+</p>
+</div>
+
+<div class="shadeContainer" style="width: 50%; display: table; margin: 0 30%;">
+<div class="shades" style="overflow: hidden; width: 105%;">
+
+<audio id="TheAudio" preload="auto">
+<source id="audiosource" src = "/serve/{{audio}}"></source>
+</audio>
+
+<div id="browseGifHolder"></div>
+
+
+
+
+
+
+
+
+<div id="list" style='margin-top: 20px;'></div>
+
+
+
+
+
+
+
+
+<p style="margin-left: 5%; text-align: left; font-weight: normal; letter-spacing: 1px; margin-bottom: 0px;">Link:</p>
+
+<div class="input-group">
+<input type="text" class="form-control">
+<span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/reddit_icon_sm.png"></span>
+</div>
+
+
+<p style="margin-left: 5%; text-align: left; font-weight: normal; letter-spacing: .5px; margin-bottom: 0px;">Embed:</p>
+
+<div class="input-group">
+<input id="tumblrEmbed" type="text" class="form-control tumblr">
+<span class="input-group-addon"><img class="field-input-icon" src="../static/assets/images/tumblr_icon_sm.png"></span>
+</div>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+<div style="clear:both;"></div>
+
+
+<div class="bottom-text">
+
+<p class="call-to-action">Obviously the concept is super simple. Like what you see? Sign up <a href="">here</a></p>
+
+<p class="copyright-info"> © 2014 | <a href="">About</a> | <a href="">Contact</a> | <a href="">Donate</a> | <a href="">Blog</a></span></p>
+</div>
+</div>
+</div>
+<div style="clear: both;"></div>
+
+
+
+
+<script type="text/javascript">
+var qry2_json = {{qry2_json|safe}};
+var leftArrow = document.getElementsByClassName('leftArrow')[0];
+var rightArrow = document.getElementsByClassName('rightArrow')[0];
+var numberOfQueries = qry2_json.length;
+
+function createTheGifs(arg) {
+	var gifCollect = []
+	for (var i = 0; i < numberOfQueries ; i++) { 
+	window["gifObject"+i] = qry2_json[i].gifblobkey;
+	gifCollect.push(qry2_json[i].gifblobkey)
+	}
+	var gifCollectItem = gifCollect[arg];
+	return gifCollectItem;
+}
+
+function createTheAudio(arg) {
+	var audioCollect = []
+	for (var i = 0; i < numberOfQueries ; i++) { 
+	window["audioObject"+i] = qry2_json[i].audioblobkey;
+	audioCollect.push(qry2_json[i].audioblobkey)
+	}
+	var audioCollectItem = audioCollect[arg];
+	return audioCollectItem;
+}
+
+function createTheUploadId(arg) {
+	var uploadIdCollect = []
+	for (var i = 0; i < numberOfQueries ; i++) { 
+	window["uploadIdObject"+i] = qry2_json[i].uploadid;
+	uploadIdCollect.push(qry2_json[i].uploadid)
+	}
+	var uploadIdCollectItem = uploadIdCollect[arg];
+	return uploadIdCollectItem;
+}
+
+
+
+createTheGifs(0);
+createTheAudio(0);
+createTheUploadId(0);
+
+for (var i=0; i < numberOfQueries; i++){
+var element = document.getElementById("browseGifHolder");
+var description = document.createElement("p");
+var gifLinks = createTheGifs(i);
+var audioLinks = createTheAudio(i);
+var uploadIdLinks = createTheUploadId(i);
+
+var imagelink = document.createElement("a");
+imagelink.href = '/gifhov/'+uploadIdLinks+'';
+var imageholder = document.createElement("img");
+imageholder.setAttribute('src', '/serve/'+gifLinks+'');
+imageholder.style.maxWidth = '150%';
+
+imageholder.setAttribute('class', "imageholder");
+imageholder.setAttribute('id', "TheGif"+i+"");
+element.appendChild(imagelink);
+imagelink.appendChild(imageholder);
+
+var testpathname = document.createTextNode("Image location: /gifhov/" + gifLinks);
+description.appendChild(testpathname);
+
+
+
+var audioholder = document.createElement("audio");
+audioholder.setAttribute('id', "TheAudio"+i+"");
+audioholder.setAttribute('preload', "auto");
+audioholder.setAttribute('class', "audioholder");
+audioholder.setAttribute('src', '/serve/'+audioLinks+'')
+element.appendChild(audioholder);
+
+
+var theMagic = document.getElementById("TheGif"+i+"");
+
+theMagic.onmouseover = function(arg) {
+return function() {
+var audioboom = $("#TheAudio"+arg+"")[0];
+audioboom.play();			     }
+}(i);    
+
+
+theMagic.onmouseout = function(arg) {
+return function() {
+var audioboom = $("#TheAudio"+arg+"")[0];
+audioboom.pause();			     }
+}(i);   
+
+}
+</script>
+
+
+
+
+
+
+ 	
+<script type="text/javascript">
+var Charles = document.getElementsByClassName('imageholder');
+for (var i=0; i < numberOfQueries; i++){
+if (i !== 0){
+Charles[i].style.display = 'none';
+}
+}
+</script>
+
+
+<script type="text/javascript">
+
+i = 0;
+function rightArrowClick(){
+if (i == (numberOfQueries - 1) ){
+	Charles[i].style.display = 'block';
+}
+else if (i < numberOfQueries) {
+	i++		
+	Charles[i].style.display = 'block';	
+	x = i - 1;
+	Charles[x].style.display = 'none';	
+
+	}
+	
+};
+rightArrow.onclick = rightArrowClick;
+
+y = 0;
+function leftArrowClick(){
+	if (i == 0 ){
+		Charles[i].style.display = 'block';
+	}
+	else if (i < numberOfQueries || i >= numberOfQueries) {
+	Charles[i].style.display = 'none';	
+	x = i - 1;
+	Charles[x].style.display = 'block';
+	i--
+	}
+};
+leftArrow.onclick = leftArrowClick;
+
+
+
+</script>
+
+
+
+{% endblock %}

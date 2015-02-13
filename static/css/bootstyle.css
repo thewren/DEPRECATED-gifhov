@@ -70,6 +70,12 @@ font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 //	margin-top: 50px;
 }
 
+.icon-checkmarkok {
+	text-shadow: 0px 1px #426D34;
+	color:  rgb(130, 212, 130);
+	font-size:  14px;
+	
+}
 .combineButton {
 width: 100%; 
 background: linear-gradient(to bottom, #60acd8 0%,#2f7fac 98%); 
@@ -94,7 +100,7 @@ padding-top: 175%;
 
 .shades {
 	float: left;
-	width:  27%;
+	width:  50%;
 padding-bottom: 10%;
 }
 
@@ -141,6 +147,7 @@ span.input-group-addon {
 .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) .tumblr {
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
+	color:  #ccc;
 	
 }
 

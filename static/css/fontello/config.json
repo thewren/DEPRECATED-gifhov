@@ -1,0 +1,16 @@
+{
+  "name": "gifhov-font",
+  "css_prefix_text": "icon-checkmark",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "b90d80c250a9bbdd6cd3fe00e6351710",
+      "css": "ok",
+      "code": 59392,
+      "src": "iconic"
+    }
+  ]
+}

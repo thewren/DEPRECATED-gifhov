@@ -1,6 +1,9 @@
-<!doctype html>
-{% extends "layout.html" %}
+
+{% extends "templates/layout.html" %}
+
 {% block body %}
+
+
 
 <div>Please login by providing your credentials below:</div>
 <br />
@@ -12,7 +15,7 @@
 <br />
 {% endif %}
 
-<form action="{{url_for('login') }}" method='post'>
+<form action="{{ Login }}" method='post'>
 	<dl>
 		<dt>Email address:
 			<dd><input type='text' name='email'>

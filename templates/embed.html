@@ -1,0 +1,32 @@
+
+
+{% block body %}
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+
+
+  <audio id="audio1" preload="auto">
+  	<source id="audiosource" src = "/serve/{{audio}}"></source>
+  </audio>
+  
+  <img class="sampleImage bg" src="/serve/{{gif}}" style="min-height: 100%; width: 100%; height: auto;  position: fixed; top: 0; left: 0;">
+  
+  <script type="text/javascript">
+  	var gifHovImage = document.getElementsByClassName("sampleImage")[0]
+  	var audioboom = $("#audio1")[0];
+  	gifHovImage.onmouseover = function(){
+  		audioboom.play();
+  	};
+  	gifHovImage.onmouseout = function(){
+  		audioboom.pause();
+  	};
+  </script>
+  
+  
+  <p> hello</p>
+  
+  
+
+
+{% endblock %}

@@ -11,12 +11,12 @@ indexes:
 # your application using appcfg.py.
 
 - kind: Gifhov
+  ancestor: yes
   properties:
   - name: uploaddate
-  - name: uploadid
 
 - kind: Gifhov
+  ancestor: yes
   properties:
   - name: uploaddate
     direction: desc
-  - name: uploadid
